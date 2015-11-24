@@ -1,0 +1,25 @@
+body {
+	font-family: "Cambria", Georgia, serif;
+}
+div {
+	margin-left: 2cm;
+}
+li {
+	list-style-type: none;
+}
+h1 {
+	font-family: "Times New Roman", Times, serif;
+}
+h3 {
+	margin-left: 2cm;
+}
+#lincoln {
+	text-align: right;
+}
+#credit {
+	text-align: right;
+	font-size: 1em; 
+}
+#text-content {
+	margin-left: 2cm;
+}

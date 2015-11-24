@@ -1,0 +1,37 @@
+<html>
+<head><title>Forward chaining meta-interpretation</title>
+	<link rel="stylesheet" href="primary.css" type="text/css">
+</head>
+<body>
+<h1>
+Forward-chaining meta-interpretation in Prolog
+</h1>
+
+	<p>
+		Prolog's default unification algorithm uses backward chaining. Starting with a query such <b>pred(a)</b>, Prolog looks for a fact from top to bottom with <b>pred(a)</b> for any tuple <b>a</b>. If no fact is found, a rule with the conclusion <b>pred(a)</b> is evaluated. Rules are written such as
+	</p>
+
+<p><pre>pred(a) :- AND(pred(b) )</pre></p>
+	<p> where <b>AND</b> is a conjunction, <b>pred</b> is some unifiable predicate and <b>b</b> is some tuple. The elements of <b>a</b> are all in <b>b</b>. Prolog will continue at the most recent successful unification.</p>
+
+	<p>Meta-interpretation (MI) is code that implements a small programming language on top of an interpreter. That language can also be the same as the interpreter. That is the case with Forward-chaining. Prolog is the language we will interpret using an interpreter written in Prolog. The difference is in the flow of the program. Rather than searching for unifications, Prolog will imply fact using the axioms we define and insert them into the database. The following is a forward-chaining meta-interpreter presented by Neil C. Rowe [1]</p>
+
+	<p><pre>
+forward :- done.
+forward :- fact(F), not(pursuit(F)), assertz(usedfact(F)),
+  retract(fact(F)), forward.
+pursuit(F) :- rule(L,R), rule_pursuit(F,L,R), fail.
+rule_pursuit(F,L,R) :- member(F,R), delete(F,R,Rnew),
+  new_rule(L,Rnew).
+new_rule(L,[]) :- not(fact(L)), asserta(fact(L)).
+new_rule(L,R) :- not(R=[]), asserta(rule(L,R)).
+	</pre></p>
+	
+	<p>
+	With this type of program, new facts are inserted into the database allowing rules to make inferences on the implications of modus ponens logic.
+	</p>
+
+<br/>&nbsp;<br/>&nbsp;<br/>
+[1] Rowe, Neil C. retrieved from http://faculty.nps.edu/ncrowe/book/chap7.html.<br/>
+</body>
+</html>
